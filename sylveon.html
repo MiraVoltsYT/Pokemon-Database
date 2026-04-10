@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>National Dex - Research Terminal #0700 // Sylveon Biometric Hub</title>
+    <style>
+        :root {
+            /* Friendly Candy-Pink Aesthetic */
+            --bg-deep: #0a0508; /* Deep pink-tinted black */
+            --panel-glass: rgba(22, 13, 18, 0.9);
+            --accent-glow: #F8A0C0; /* Soft Candy Pink */
+            --ribbon-blue: #8EDFF9; /* Heavenly Blue */
+            --shiny-gold: #ffcc00;
+            --border-subtle: rgba(248, 160, 192, 0.2);
+            --text-main: #fff0f5;
+            --text-dim: #c8b0b8;
+            --fairy: #F0A3F0;
+            --love: #ffb6c1;
+            --status-found: #F8A0C0;
+            --status-missing: #444444;
+        }
+
+        body {
+            /* Friendly, Luminous Background Vibe */
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(248, 160, 192, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(142, 223, 249, 0.1) 0%, transparent 40%),
+                linear-gradient(135deg, #0a0508 0%, #170d14 100%);
+            color: var(--text-main);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center;
+            min-height: 100vh;
+        }
+
+        .terminal-container {
+            width: 1400px;
+            background: var(--panel-glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            box-shadow: 0 0 100px rgba(30, 0, 15, 0.8), inset 0 0 20px rgba(248, 160, 192, 0.05);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+
+        .terminal-header {
+            padding: 40px;
+            background: linear-gradient(to right, rgba(248, 160, 192, 0.08), transparent);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+
+        .main-grid { display: grid; grid-template-columns: 340px 1fr 1fr 340px; }
+        .col { padding: 30px; border-right: 1px solid var(--border-subtle); }
+        .col:last-child { border-right: none; }
+
+        .section-tag {
+            font-size: 10px; font-weight: 800; color: var(--accent-glow);
+            text-transform: uppercase; letter-spacing: 2.5px;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .section-tag::after { content: ''; height: 1px; flex-grow: 1; background: var(--border-subtle); }
+
+        .btn {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle);
+            color: var(--text-main); font-size: 10px; padding: 10px 14px;
+            border-radius: 6px; cursor: pointer; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn:hover { background: rgba(248, 160, 192, 0.15); border-color: var(--accent-glow); box-shadow: 0 0 15px rgba(248, 160, 192, 0.2); }
+        .btn-home { border-color: var(--text-dim); color: var(--text-dim); margin-bottom: 15px; }
+        .btn-home:hover { color: var(--accent-glow); }
+        .shiny-active { border-color: var(--shiny-gold) !important; color: var(--shiny-gold); text-shadow: 0 0 5px var(--shiny-gold); }
+
+        .archive-box {
+            background: rgba(0,0,0,0.4); border-radius: 10px; padding: 18px;
+            font-size: 13.5px; line-height: 1.7; border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px; color: #ced4da;
+        }
+        
+        .detail-list { font-size: 12.5px; color: var(--text-dim); padding-left: 20px; margin: 15px 0; }
+        .detail-list li { margin-bottom: 10px; }
+
+        .move-card {
+            background: rgba(248, 160, 192, 0.05); border-radius: 8px; padding: 12px;
+            margin-bottom: 10px; border: 1px solid rgba(248, 160, 192, 0.1);
+        }
+        .move-name { font-weight: bold; font-size: 11px; color: var(--ribbon-blue); text-transform: uppercase; }
+
+        .game-cell {
+            background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 4px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(255,255,255,0.03); font-size: 10px;
+        }
+        .dot { width: 6px; height: 6px; border-radius: 50%; }
+        .dot-inc { background: var(--status-found); box-shadow: 0 0 8px var(--status-found); }
+        .dot-exc { background: var(--status-missing); opacity: 0.2; }
+
+        .sprite-display { 
+            text-align: center; padding: 20px; min-height: 220px; 
+            background: radial-gradient(circle, rgba(248, 160, 192, 0.1) 0%, transparent 70%);
+        }
+        .type-pill { padding: 5px 18px; border-radius: 4px; font-size: 11px; font-weight: 800; border: 1.5px solid; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="terminal-container">
+    <div class="terminal-header">
+        <div>
+            <a href="gen6.html" class="btn btn-home">⮌ RETURN TO TERMINAL INDEX</a>
+            <div style="font-family: monospace; font-size: 12px; color: var(--accent-glow); letter-spacing: 5px; margin-bottom: 8px;">NATIONAL_DEX_RESEARCH_NODE_#0700</div>
+            <h1 style="margin:0; font-size: 48px; letter-spacing: -1px; background: linear-gradient(to bottom, #fff, var(--accent-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SYLVEON</h1>
+            <div style="display: flex; gap: 12px; margin-top: 15px;">
+                <span class="type-pill" style="color: var(--fairy); border-color: var(--fairy);">FAIRY TYPE</span>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <div style="font-size: 10px; color: var(--accent-glow); letter-spacing: 2px; margin-bottom: 8px; font-weight: 800;">ACOUSTIC_SIGNATURE</div>
+            <button class="btn" onclick="playCry()" style="padding: 12px 20px;">⏵ INITIATE VOCAL_CRY.WAV</button>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="col">
+            <span class="section-tag">Visual Identity</span>
+            <div class="utility-bar">
+                <button id="shiny-btn" class="btn" onclick="toggleShiny()">Toggle Shiny Variant</button>
+            </div>
+            <div class="sprite-display">
+                <img id="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/700.png" width="240">
+            </div>
+            
+            <span class="section-tag">Biometric Stats</span>
+            <div style="font-size: 12px; display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Genus</span><strong style="color:var(--accent-glow)">Intertwining Pokémon</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Height</span><strong>1.0 m</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Weight</span><strong>23.5 kg</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Ability</span><strong>Cute Charm / Pixilate</strong></div>
+            </div>
+        </div>
+
+        <div class="col">
+            <span class="section-tag">Historical Archive</span>
+            <div class="archive-box">
+                Sylveon is one of the distinct evolutionary forms of Eevee. It is a kind and gentle Pokémon that uses its ribbon-like feelers to soothe fighting and dissipate hostile emotions.
+            </div>
+
+            <span class="section-tag">Physical Anatomy</span>
+            <ul style="font-size: 12.5px; color: var(--text-dim); padding-left: 20px;">
+                <li><strong>Feelers:</strong> Highly sensitive ribbons that emit a calming aura.</li>
+                <li><strong>Ocular:</strong> Large blue eyes that communicate deep affection.</li>
+                <li><strong>Dermal:</strong> Soft white and pink fur often kept meticulously clean.</li>
+                <li><strong>Paws:</strong> Small paws often highlighted by blue or pink tips.</li>
+            </ul>
+
+            <span class="section-tag">Behavorial Pattern</span>
+            <div class="archive-box" style="border-left: 4px solid var(--love); background: rgba(255, 182, 193, 0.05);">
+                Commonly found near urban areas due to its close connection to trainers. It wraps its feelers around its trainer's arm to show affection and trust. It thrives on deep bonds.
+            </div>
+        </div>
+
+        <div class="col">
+            <span class="section-tag">Affectionate Moveset</span>
+            <div class="move-card"><div class="move-name">Moonblast</div><div style="font-size:10px; color:var(--text-dim);">Draws power from the moon. May lower Special Attack.</div></div>
+            <div class="move-card"><div class="move-name">Hyper Voice</div><div style="font-size:10px; color:var(--text-dim);">Tactical Pixilate STAB. Damages both opposing targets.</div></div>
+            <div class="move-card"><div class="move-name">Wish</div><div style="font-size:10px; color:var(--text-dim);">A warm wish that restores HP to itself or an ally next turn.</div></div>
+
+            <span class="section-tag" style="margin-top: 25px;">Affection Metrics</span>
+            <div id="stats-target"></div>
+        </div>
+
+        <div class="col">
+            <span class="section-tag">Era Compatibility</span>
+            <div id="game-grid" style="display: grid; grid-template-columns: 1fr; gap: 5px;"></div>
+
+            <span class="section-tag" style="margin-top: 30px;">Cross-Gen Protocol</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="font-size:9px; padding:10px; border:1px solid var(--accent-glow); text-align:center; border-radius:4px;">TERA: FAIRY<br><small>Compatible</small></div>
+                <div style="font-size:9px; padding:10px; border:1px solid #aa00ff; text-align:center; border-radius:4px;">Z-MOVE: TWINKLE<br><small>Compatible</small></div>
+                <div style="font-size:9px; padding:10px; border:1px solid #F0A3F0; text-align:center; border-radius:4px;">PIXILATE<br><small>Optimized</small></div>
+                <div style="font-size:9px; padding:10px; border:1px solid #ff4444; text-align:center; border-radius:4px; opacity: 0.5;">MEGA-EVO<br><small>N/A</small></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let isShiny = false;
+    const sprite = document.getElementById('poke-sprite');
+    function toggleShiny() {
+        isShiny = !isShiny;
+        sprite.src = isShiny 
+            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/700.png"
+            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/700.png";
+        document.getElementById('shiny-btn').classList.toggle('shiny-active');
+    }
+
+    function playCry() {
+        new Audio('https://play.pokemonshowdown.com/audio/cries/sylveon.mp3').play();
+    }
+
+    const stats = { HP: 95, ATK: 65, DEF: 65, SPA: 110, SPD: 130, SPE: 60 };
+    document.getElementById('stats-target').innerHTML = Object.entries(stats).map(([k, v]) => `
+        <div style="margin-bottom: 12px;">
+            <div style="display:flex; justify-content:space-between; font-size: 10px; font-weight: bold; margin-bottom: 4px;">
+                <span style="color:var(--text-dim)">${k}</span><span>${v}</span>
+            </div>
+            <div style="height: 3px; background: rgba(255,255,255,0.05);"><div style="height:100%; width:${(v/150)*100}%; background:var(--accent-glow); box-shadow: 0 0 8px var(--accent-glow);"></div></div>
+        </div>
+    `).join('');
+
+    const games = [
+        { name: "Scarlet / Violet", found: true },
+        { name: "Legends: Arceus", found: true },
+        { name: "Sword / Shield", found: true },
+        { name: "Let's Go Pikachu / Eevee", found: true },
+        { name: "Sun / Moon", found: true },
+        { name: "X / Y", found: true }
+    ];
+
+    document.getElementById('game-grid').innerHTML = games.map(g => `
+        <div class="game-cell">${g.name} <div class="dot ${g.found ? 'dot-inc' : 'dot-exc'}"></div></div>
+    `).join('');
+</script>
+
+</body>
+</html>

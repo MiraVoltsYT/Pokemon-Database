@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gen 12 - VOID_SIGNAL</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  background: #000; /* Deep black for the void */
+  color: #00ff41; /* Classic Matrix/Terminal Green */
+  overflow-x: hidden;
+}
+
+/* SCANLINE EFFECT */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 100;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  background: #0a0a0a;
+  border-bottom: 1px solid #00ff41;
+  text-shadow: 0 0 5px #00ff41;
+}
+
+.container {
+  padding: 30px;
+  position: relative;
+}
+
+.title {
+  font-size: 40px;
+  text-align: center;
+  letter-spacing: 10px;
+  animation: flicker 0.5s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.8; transform: skewX(-5deg); }
+  50% { opacity: 1; transform: skewX(2deg); }
+  100% { opacity: 0.9; transform: skewX(-2deg); }
+}
+
+.release-note {
+  text-align: center;
+  color: #ff0000;
+  margin-bottom: 40px;
+  font-size: 14px;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 20px;
+}
+
+/* VOID LINKS */
+.void-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* CORRUPTED CARDS */
+.unknown-card {
+  height: 120px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid #00ff41;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: 0.2s;
+  /* Fragmented look */
+  transform: rotate(calc(var(--r, 0) * 1deg));
+}
+
+.unknown-card:hover {
+  background: rgba(0, 255, 65, 0.2);
+  cursor: help;
+  transform: scale(1.1) rotate(0deg);
+  box-shadow: 0 0 15px #00ff41;
+}
+
+.pokedex-number { font-size: 10px; opacity: 0.5; }
+.glitch-text { 
+  font-weight: bold; 
+  font-size: 18px;
+  text-decoration: line-through; 
+}
+
+.back-btn {
+  border: 1px solid #00ff41;
+  color: #00ff41;
+  padding: 5px 15px;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>ID: NULL_SECTOR</div>
+  <a href="index.html" class="back-btn">REBOOT</a>
+</div>
+
+<div class="container">
+  <div class="title">GEN_12_EXT_??</div>
+  <div class="release-note">[SIGNAL LOST] ESTIMATED_YEAR: 0x7FFFFFFF</div>
+
+  <div class="pokemon-grid" id="voidGrid">
+    <script>
+      const grid = document.getElementById('voidGrid');
+      // Generating broken cards linking to Unknown.html
+      for(let i = 1231; i <= 1330; i++) {
+        const randomRot = Math.floor(Math.random() * 6) - 3;
+        grid.innerHTML += `
+          <a href="Unknown.html" class="void-link">
+            <div class="unknown-card" style="--r: ${randomRot}">
+              <span class="pokedex-number">#${i}</span>
+              <div class="glitch-text">ERR_404</div>
+              <div style="font-size:8px;">NOT_FOUND</div>
+            </div>
+          </a>
+        `;
+      }
+    </script>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>National Dex - Research Terminal #0815 // Cinderace Biometric Hub</title>
+    <style>
+        :root {
+            /* High-Energy Striker Aesthetic */
+            --bg-deep: #0d0a0a;
+            --panel-glass: rgba(20, 15, 15, 0.9);
+            --accent-glow: #FF384A; /* Championship Red */
+            --striker-white: #FFFFFF;
+            --shiny-grey: #6e6e6e;
+            --border-subtle: rgba(255, 56, 74, 0.2);
+            --text-main: #fffafa;
+            --text-dim: #bda7a7;
+            --fire: #F08030;
+            --libero: #4CC9FE;
+            --status-found: #FF384A;
+            --status-missing: #444444;
+        }
+
+        body {
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 56, 74, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+                linear-gradient(135deg, #0d0a0a 0%, #1a0f0f 100%);
+            color: var(--text-main);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            margin: 0; padding: 20px;
+            display: flex; justify-content: center;
+            min-height: 100vh;
+        }
+
+        .terminal-container {
+            width: 1400px;
+            background: var(--panel-glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            box-shadow: 0 0 100px rgba(50, 0, 0, 0.8), inset 0 0 20px rgba(255, 56, 74, 0.05);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+
+        .terminal-header {
+            padding: 40px;
+            background: linear-gradient(to right, rgba(255, 56, 74, 0.08), transparent);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+
+        .main-grid { display: grid; grid-template-columns: 340px 1fr 1fr 340px; }
+        .col { padding: 30px; border-right: 1px solid var(--border-subtle); }
+        .col:last-child { border-right: none; }
+
+        .section-tag {
+            font-size: 10px; font-weight: 800; color: var(--accent-glow);
+            text-transform: uppercase; letter-spacing: 2.5px;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+        .section-tag::after { content: ''; height: 1px; flex-grow: 1; background: var(--border-subtle); }
+
+        .btn {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle);
+            color: var(--text-main); font-size: 10px; padding: 10px 14px;
+            border-radius: 6px; cursor: pointer; transition: 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn:hover { background: rgba(255, 56, 74, 0.15); border-color: var(--accent-glow); box-shadow: 0 0 15px rgba(255, 56, 74, 0.2); }
+        .btn-home { border-color: var(--text-dim); color: var(--text-dim); margin-bottom: 15px; }
+        .shiny-active { border-color: var(--shiny-grey) !important; color: var(--striker-white); text-shadow: 0 0 5px var(--striker-white); }
+
+        .archive-box {
+            background: rgba(0,0,0,0.4); border-radius: 10px; padding: 18px;
+            font-size: 13.5px; line-height: 1.7; border: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 25px; color: #ced4da;
+        }
+
+        .move-card {
+            background: rgba(255, 56, 74, 0.05); border-radius: 8px; padding: 12px;
+            margin-bottom: 10px; border: 1px solid rgba(255, 56, 74, 0.1);
+        }
+        .move-name { font-weight: bold; font-size: 11px; color: var(--striker-white); text-transform: uppercase; }
+
+        .game-cell {
+            background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 4px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid rgba(255,255,255,0.03); font-size: 10px;
+        }
+        .dot { width: 6px; height: 6px; border-radius: 50%; }
+        .dot-inc { background: var(--status-found); box-shadow: 0 0 8px var(--status-found); }
+        .dot-exc { background: var(--status-missing); opacity: 0.2; }
+
+        .sprite-display { 
+            text-align: center; padding: 20px; min-height: 220px; 
+            background: radial-gradient(circle, rgba(255, 56, 74, 0.1) 0%, transparent 70%);
+        }
+        .type-pill { padding: 5px 18px; border-radius: 4px; font-size: 11px; font-weight: 800; border: 1.5px solid; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<div class="terminal-container">
+    <div class="terminal-header">
+        <div>
+            <a href="gen8.html" class="btn btn-home">⮌ RETURN TO TERMINAL INDEX</a>
+            <div style="font-family: monospace; font-size: 12px; color: var(--accent-glow); letter-spacing: 5px; margin-bottom: 8px;">NATIONAL_DEX_RESEARCH_NODE_#0815</div>
+            <h1 style="margin:0; font-size: 48px; letter-spacing: -1px; background: linear-gradient(to bottom, #fff, var(--accent-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CINDERACE</h1>
+            <div style="display: flex; gap: 12px; margin-top: 15px;">
+                <span class="type-pill" style="color: var(--fire); border-color: var(--fire);">FIRE TYPE</span>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <div style="font-size: 10px; color: var(--accent-glow); letter-spacing: 2px; margin-bottom: 8px; font-weight: 800;">STRIKER_SIGNAL</div>
+            <button class="btn" onclick="playCry()" style="padding: 12px 20px;">⏵ INITIATE SCORE_CRY.WAV</button>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="col">
+            <span class="section-tag">Visual Identity</span>
+            <div class="utility-bar">
+                <button id="shiny-btn" class="btn" onclick="toggleShiny()">Toggle Shiny Variant</button>
+            </div>
+            <div class="sprite-display">
+                <img id="poke-sprite" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/815.png" width="240">
+            </div>
+            
+            <span class="section-tag">Striker Stats</span>
+            <div style="font-size: 12px; display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Genus</span><strong style="color:var(--accent-glow)">Striker Pokémon</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Height</span><strong>1.4 m</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Weight</span><strong>33.0 kg</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-dim)">Ability</span><strong>Blaze / Libero</strong></div>
+            </div>
+        </div>
+
+        <div class="col">
+            <span class="section-tag">Historical Archive</span>
+            <div class="archive-box">
+                Cinderace juggles a pebble with its feet, turning it into a flaming soccer ball. It possesses incredible leg strength and balance, allowing it to perform acrobatic kicks.
+            </div>
+
+            <span class="section-tag">Physical Anatomy</span>
+            <ul style="font-size: 12.5px; color: var(--text-dim); padding-left: 20px;">
+                <li><strong>Ears:</strong> Long and expressive, used to detect air currents during matches.</li>
+                <li><strong>Legs:</strong> Muscular build designed for rapid sprinting and high-velocity kicks.</li>
+                <li><strong>Pelage:</strong> Short, sport-suit-like fur that dissipates heat efficiently.</li>
+                <li><strong>Feet:</strong> Padded for grip and heat resistance when handling the pyro-ball.</li>
+            </ul>
+
+            <span class="section-tag">Competitive Pattern</span>
+            <div class="archive-box" style="border-left: 4px solid var(--libero); background: rgba(76, 201, 254, 0.05);">
+                With the <strong>Libero</strong> ability, it changes its type to match the move it is about to use. This makes it a versatile offensive threat that is hard to predict.
+            </div>
+        </div>
+
+        <div class="col">
+            <span class="section-tag">Signature Moveset</span>
+            <div class="move-card"><div class="move-name">Pyro Ball</div><div style="font-size:10px; color:var(--text-dim);">Kicks a flaming pebble at the target. May cause a burn.</div></div>
+            <div class="move-card"><div class="move-name">Court Change</div><div style="font-size:10px; color:var(--text-dim);">Swaps the effects of barriers and hazards between sides.</div></div>
+            <div class="move-card"><div class="move-name">High Jump Kick</div><div style="font-size:10px; color:var(--text-dim);">A powerful jumping kick. Misses cause heavy crash damage.</div></div>
+
+            <span class="section-tag" style="margin-top: 25px;">Stat Analysis</span>
+            <div id="stats-target"></div>
+        </div>
+
+        <div class="col">
+            <span class="section-tag">Arena Availability</span>
+            <div id="game-grid" style="display: grid; grid-template-columns: 1fr; gap: 5px;"></div>
+
+            <span class="section-tag" style="margin-top: 30px;">Galar Protocol</span>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="font-size:9px; padding:10px; border:1px solid var(--accent-glow); text-align:center; border-radius:4px;">G-MAX: FIREBALL<br><small>Compatible</small></div>
+                <div style="font-size:9px; padding:10px; border:1px solid var(--libero); text-align:center; border-radius:4px;">LIBERO<br><small>Optimized</small></div>
+                <div style="font-size:9px; padding:10px; border:1px solid #FFD700; text-align:center; border-radius:4px;">SOCCER<br><small>Expert</small></div>
+                <div style="font-size:9px; padding:10px; border:1px solid #ff4444; text-align:center; border-radius:4px; opacity: 0.5;">MEGA-EVO<br><small>N/A</small></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let isShiny = false;
+    const sprite = document.getElementById('poke-sprite');
+    function toggleShiny() {
+        isShiny = !isShiny;
+        sprite.src = isShiny 
+            ? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/815.png"
+            : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/815.png";
+        document.getElementById('shiny-btn').classList.toggle('shiny-active');
+    }
+
+    function playCry() {
+        new Audio('https://play.pokemonshowdown.com/audio/cries/cinderace.mp3').play();
+    }
+
+    const stats = { HP: 80, ATK: 116, DEF: 75, SPA: 65, SPD: 75, SPE: 119 };
+    document.getElementById('stats-target').innerHTML = Object.entries(stats).map(([k, v]) => `
+        <div style="margin-bottom: 12px;">
+            <div style="display:flex; justify-content:space-between; font-size: 10px; font-weight: bold; margin-bottom: 4px;">
+                <span style="color:var(--text-dim)">${k}</span><span>${v}</span>
+            </div>
+            <div style="height: 3px; background: rgba(255,255,255,0.05);"><div style="height:100%; width:${(v/150)*100}%; background:var(--accent-glow); box-shadow: 0 0 8px var(--accent-glow);"></div></div>
+        </div>
+    `).join('');
+
+    const games = [
+        { name: "Scarlet / Violet", found: true },
+        { name: "Sword / Shield", found: true },
+        { name: "Legends: Arceus", found: false },
+        { name: "Gen 7 & Below", found: false }
+    ];
+
+    document.getElementById('game-grid').innerHTML = games.map(g => `
+        <div class="game-cell">${g.name} <div class="dot ${g.found ? 'dot-inc' : 'dot-exc'}"></div></div>
+    `).join('');
+</script>
+
+</body>
+</html>

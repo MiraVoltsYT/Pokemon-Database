@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Generation 11 - [REDACTED]</title>
+
+<style>
+body {
+  margin:0;
+  font-family: 'Courier New', monospace; /* More technical feel */
+  background: #0f172a; /* Dark void background */
+  color: #f8fafc;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: rgba(30, 41, 59, 0.9);
+  border-bottom: 2px solid #334155;
+}
+
+.container {
+  padding: 30px;
+}
+
+/* GLITCH EFFECT */
+.title {
+  font-size: 42px;
+  text-align: center;
+  color: #22d3ee;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  position: relative;
+  animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+  0% { text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
+  25% { text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; }
+  50% { text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; }
+  100% { text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; }
+}
+
+.status-bar {
+  text-align: center;
+  color: #ef4444;
+  font-weight: bold;
+  margin-bottom: 40px;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 10px;
+  border: 1px solid #ef4444;
+  display: block;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+  justify-items: center;
+}
+
+/* HOLOGRAPHIC UNKNOWN CARDS */
+.unknown-card {
+  padding: 20px 10px;
+  width: 130px;
+  background: #1e293b;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
+  cursor: not-allowed;
+}
+
+.unknown-card::before {
+  content: '';
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 400%;
+  height: 400%;
+  background: linear-gradient(45deg, transparent, rgba(34, 211, 238, 0.1), transparent);
+  transition: 0.5s;
+}
+
+.unknown-card:hover {
+  border-color: #22d3ee;
+  transform: translateY(-5px);
+}
+
+.unknown-card:hover::before {
+  top: -100%;
+  left: -100%;
+}
+
+.pokedex-number { font-size: 12px; color: #64748b; }
+.unknown-name { 
+  font-size: 16px; 
+  color: #94a3b8; 
+  margin: 10px 0;
+  filter: blur(2px); /* Makes it look unreadable */
+}
+
+.back-btn {
+    background: #22d3ee;
+    color: #0f172a;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="color:#22d3ee; font-weight:bold;">SYS.STATUS: NO_DATA</div>
+  <a href="index.html" class="back-btn">RETURN TO HUB</a>
+</div>
+
+<div class="container">
+  <div class="title">Generation 11</div>
+  <span class="status-bar">CRITICAL ERROR: DATA NOT FOUND IN LOCAL CACHE</span>
+
+  <div class="pokemon-grid" id="gen11Grid">
+    <script>
+      const grid = document.getElementById('gen11Grid');
+      // Estimating Gen 11 starts around #1130+
+      for(let i = 1130; i <= 1230; i++) {
+        grid.innerHTML += `
+          <div class="unknown-card">
+            <span class="pokedex-number">#${i}</span>
+            <div class="unknown-name">UNDEFINED</div>
+            <div style="font-size:10px; color:#ef4444;">[LOCKED]</div>
+          </div>
+        `;
+      }
+    </script>
+  </div>
+</div>
+
+</body>
+</html>
