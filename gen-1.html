@@ -6,13 +6,13 @@
     <style>
         :root {
             --glitch-red: #ff0000;
-            --dark-red: #350000; /* Darker, more ominous red */
+            --dark-red: #350000;
             --void-bg: #000000;
         }
 
         body {
             background-color: var(--void-bg);
-            color: #8b0000; /* Darker blood red */
+            color: #8b0000;
             font-family: 'Courier New', monospace;
             margin: 0;
             overflow-x: hidden;
@@ -20,9 +20,9 @@
                 linear-gradient(rgba(139, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(139, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
+            transition: background-color 2s;
         }
 
-        /* THE CREEPY OVERLAY - CONSTANT FAST SHAKE */
         #creepy-overlay {
             position: fixed;
             top: 50%;
@@ -86,6 +86,7 @@
         .nav-back {
             color: #5a0000; text-decoration: none; font-size: 11px;
             border: 1px solid #5a0000; padding: 5px 12px;
+            cursor: pointer;
         }
 
         .terminate-container {
@@ -109,19 +110,6 @@
             cursor: pointer;
             box-shadow: 0 0 15px #8b0000;
         }
-
-        .terminate-btn:hover {
-            background: #ff0000;
-            color: #000;
-            box-shadow: 0 0 30px #ff0000;
-            text-shadow: none;
-        }
-
-        .terminate-btn:active {
-            transform: scale(0.95);
-            filter: invert(1);
-        }
-
     </style>
 </head>
 <body>
@@ -130,62 +118,148 @@
 
 <div class="header">
     <h2 style="margin:0; font-size: 18px; color: #4a0000;">[ SECTOR_-1_ILLEGAL_ACCESS ]</h2>
-    <a href="javascript:void(0)" onclick="this.innerHTML='SYSTEM_LOCKED'; this.style.color='red';" class="nav-back">TRY_TO_LEAVE</a>
+    <h3 id="status-text" style="margin:0; font-size: 14px; color: #4a0000;">There's easter eggs!</h3>
+    <a href="javascript:void(0)" id="topExitBtn" onclick="handleExitAttempt(this)" class="nav-back">EXIT??</a>
 </div>
 
 <div class="pokedex-grid" id="voidGrid"></div>
 
 <div class="terminate-container">
-    <p style="color: #4a0000; font-size: 10px; margin-bottom: 10px;">SYSTEM_RECOVERY_PROTOCOL_v.09</p>
-    <a href="index.html" class="terminate-btn">тєямιηαтє ƒιℓє</a>
+    <a href="javascript:void(0)" id="termBtn" onclick="handleTerminate(this)" class="terminate-btn">тєямιηαтє ƒιℓє</a>
 </div>
 
 <script>
-    const grid = document.getElementById('voidGrid');
-    const overlay = document.getElementById('creepy-overlay');
-    
-    const horrorPhrases = [
-        "ᖇย几", "R̶̖͕̀͒...", "Ư̵̖...", "_N̢͉...", "ͶUЯ", "𝚁⃥𝚄⃥𝙽⃥", "𝕽 𝖀 𝕹", "𝐑⃥𝐔⃥𝐍⃥", "𝗥⃥𝘜̸𝗡⃥",
-        "H̢̻̰...", "Ĥί𝓭𝒆", "ĦĪĐɆ", "𝙷⃥𝙸⃥𝙳⃥𝙴⃥", "ꞪƗƉƐ", "𐋅ጎ𐌃ቹ",
-        "𐌍ዐ ቹ𐌔ር𐌀የ𐌄", "𝐍⃥𝐎⃥ 𝐄⃥𝐒⃥𝐂⃥𝐀⃥𝐏⃥𝐄⃥", "₦Ø Ɇ₴₵₳₱Ɇ", "ñÖ È§ÇÄþÈ",
-        "ﻮσσ𝓭 ˡย🅲𝓚", "G̶̡...", "⋊ƆU⅃ ᗡOOᎮ", "ᴳᴼₒᴰ ᴸᵤᶜₖ", "𝐺⃫𝑂⃫𝑂⃫𝐷⃫ 𝐿⃫𝑈⃫𝐶⃫𝐾⃫",
-        "ՌՕ ȶƱƦՌƗՌɢ ɮǞƇӃ", "ñÖ †ÚRñÌñG ßÄÇK", "几σ ｔยᖇ几ί几ﻮ Ⓑ𝕒🅲𝓚"
-    ];
+// --- CORE STATE ---
+let totalTerminations = parseInt(localStorage.getItem('termCount')) || 0;
+let lockStatus = localStorage.getItem('voidLocked') || 'false'; // 'false', 'true', or 'permanent'
+let stillTimer;
+let isWaiting = false;
 
-    let cycleSpeed = 300; 
+// --- WHISPER LOGIC ---
+const whispers = ["I see you, {TRAINER}", "Still here?", "Don't leave me...", "It's cold out there", "Why are you here?"];
+if (lockStatus === 'permanent') {
     setInterval(() => {
-        let scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        let scrollPercent = window.scrollY / scrollHeight;
-        
-        if (scrollPercent > 0.05) {
-            const randomPhrase = horrorPhrases[Math.floor(Math.random() * horrorPhrases.length)];
-            overlay.innerHTML = randomPhrase;
-        }
-    }, cycleSpeed);
+        const statusText = document.getElementById('status-text');
+        statusText.innerHTML = whispers[Math.floor(Math.random() * whispers.length)];
+        statusText.style.color = "red";
+    }, 8000);
+}
 
-    window.onscroll = function() {
-        let scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        let scrollPercent = window.scrollY / scrollHeight;
-
-        overlay.style.color = `rgba(255, 0, 0, ${scrollPercent * 0.95})`; 
-        overlay.style.animationDuration = `${0.05 / (scrollPercent + 0.1)}s`;
-    };
-
-    const symbols = ["?", "Ø", "†", "Σ", "X", "░", "▓", "NaN", "塊", "∑", "∆", "𒀱", "𒅒", "𒄆"];
-    for (let i = 1; i <= 200; i++) {
-        const id = i.toString().padStart(4, '0');
-        const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
-        const card = document.createElement('a');
-        card.href = `-${id}.html`;
-        card.className = 'glitch-card';
-        card.innerHTML = `
-            <div class="sprite-box">${randomSymbol}</div>
-            <div class="id-num"># -${id}</div>
-            <div class="name-err">VOID_ENTRY</div>
-        `;
-        grid.appendChild(card);
+// --- TERMINATE LOGIC ---
+function handleTerminate(el) {
+    if (lockStatus === 'permanent') {
+        alert("Oh oh oh.. going so soon?");
+        startStillnessChallenge();
+        return;
     }
-</script>
 
+    if (lockStatus === 'true') {
+        alert("Your exit is hidden within the infinite of space, but if doubles and stood upright");
+        return;
+    }
+
+    totalTerminations++;
+    localStorage.setItem('termCount', totalTerminations.toString());
+
+    if (totalTerminations === 5) {
+        alert("You really think i would forget?");
+        window.location.href = "index.html";
+    } else if (totalTerminations === 7) {
+        alert("Stop... i know what your trying to do, and i won't let you");
+        window.location.href = "index.html";
+    } else if (totalTerminations >= 10) {
+        localStorage.setItem('voidLocked', 'true');
+        location.reload();
+    } else {
+        window.location.href = "index.html";
+    }
+}
+
+// --- STILLNESS CHALLENGE ---
+function startStillnessChallenge() {
+    document.getElementById('status-text').innerHTML = "DON'T MOVE.";
+    document.getElementById('status-text').style.fontSize = "24px";
+    
+    let secondsStill = 0;
+    const challenge = setInterval(() => {
+        secondsStill++;
+        if (secondsStill >= 10) {
+            clearInterval(challenge);
+            alert("PROTOCOL_BROKEN: FAKE_EXIT_INITIATED");
+            window.location.href = "fakeIndex.html";
+        }
+    }, 1000);
+
+    // If mouse moves, reset the challenge
+    window.onmousemove = () => {
+        if (secondsStill > 0 && secondsStill < 10) {
+            secondsStill = 0;
+            console.log("Stillness broken.");
+        }
+    };
+}
+
+// --- TOP BUTTON (EXIT) ---
+function handleExitAttempt(el) {
+    if (isWaiting || lockStatus !== 'false') return;
+    isWaiting = true;
+    el.innerHTML = "ACCESS_DENIED";
+    setTimeout(() => {
+        el.innerHTML = "EXIT??";
+        isWaiting = false;
+    }, 1000);
+}
+
+// --- GRID GENERATION ---
+const grid = document.getElementById('voidGrid');
+const symbols = ["?", "Ø", "†", "Σ", "X", "░", "▓", "NaN", "𒀱", "𒄆"];
+
+for (let i = 1; i <= 200; i++) {
+    const id = i.toString().padStart(4, '0');
+    const card = document.createElement('a');
+    card.className = 'glitch-card';
+    
+    if (id === "0088") {
+        card.href = "javascript:void(0)";
+        card.onclick = () => {
+            if (lockStatus === 'true') {
+                alert("PROTOCOL_DECRYPTED: EXIT_GRANTED");
+                setTimeout(() => {
+                    alert("You Idiot... you really thought it would be that easy?");
+                    localStorage.setItem('voidLocked', 'permanent');
+                    location.reload();
+                }, 500);
+            }
+        };
+    } else {
+        card.href = `-${id}.html`;
+    }
+
+    const symbol = (lockStatus === 'permanent') ? "X" : symbols[Math.floor(Math.random() * symbols.length)];
+    card.innerHTML = `<div class="sprite-box">${symbol}</div><div class="id-num"># -${id}</div><div class="name-err">VOID_ENTRY</div>`;
+    grid.appendChild(card);
+}
+
+// --- APPLY LOCKDOWN UI ---
+if (lockStatus === 'true' || lockStatus === 'permanent') {
+    document.getElementById('status-text').innerHTML = "YOU ARE NOT LEAVING.";
+    document.getElementById('topExitBtn').style.display = 'none';
+    if (lockStatus === 'permanent') {
+        document.body.style.backgroundColor = "#1a0000";
+        document.getElementById('termBtn').innerHTML = "STAY.";
+    }
+}
+
+// --- OVERLAY SCROLL LOGIC ---
+const overlay = document.getElementById('creepy-overlay');
+const horrorPhrases = ["H̸I̸D̸E̸", "N̾O̾ ̾E̾S̾C̾A̾P̾E̾", "尺ㄩ几", "𝒩𝒪 𝒯𝒰ℛ𝒩ℐ𝒩𝒢 ℬ𝒜𝒞𝒦"];
+setInterval(() => {
+    let scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1);
+    if (scrollPercent > 0.05) {
+        overlay.innerHTML = horrorPhrases[Math.floor(Math.random() * horrorPhrases.length)];
+        overlay.style.color = `rgba(255, 0, 0, ${scrollPercent})`;
+    }
+}, 250);
+</script>
 </body>
 </html>
