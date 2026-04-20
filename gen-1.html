@@ -129,30 +129,21 @@
 </div>
 
 <script>
-// --- CORE STATE ---
+// --- 1. CORE STATE ---
+// We removed the automatic reset. To reset, you'd have to clear site data or 
+// add a secret button elsewhere.
 let totalTerminations = parseInt(localStorage.getItem('termCount')) || 0;
-let lockStatus = localStorage.getItem('voidLocked') || 'false'; // 'false', 'true', or 'permanent'
-let stillTimer;
+let lockStatus = localStorage.getItem('voidLocked') || 'false'; 
 let isWaiting = false;
 
-// --- WHISPER LOGIC ---
-const whispers = ["I see you, {TRAINER}", "Still here?", "Don't leave me...", "It's cold out there", "Why are you here?"];
-if (lockStatus === 'permanent') {
-    setInterval(() => {
-        const statusText = document.getElementById('status-text');
-        statusText.innerHTML = whispers[Math.floor(Math.random() * whispers.length)];
-        statusText.style.color = "red";
-    }, 8000);
-}
-
-// --- TERMINATE LOGIC ---
+// --- 2. TERMINATE LOGIC ---
 function handleTerminate(el) {
     if (lockStatus === 'permanent') {
         alert("Oh oh oh.. going so soon?");
         startStillnessChallenge();
         return;
     }
-
+    
     if (lockStatus === 'true') {
         alert("Your exit is hidden within the infinite of space, but if doubles and stood upright");
         return;
@@ -164,21 +155,30 @@ function handleTerminate(el) {
     if (totalTerminations === 5) {
         alert("You really think i would forget?");
         window.location.href = "index.html";
-    } else if (totalTerminations === 7) {
+    } 
+    else if (totalTerminations === 8) {
         alert("Stop... i know what your trying to do, and i won't let you");
         window.location.href = "index.html";
-    } else if (totalTerminations >= 10) {
+    } 
+    else if (totalTerminations >= 10) {
+        // SET THE LOCK
         localStorage.setItem('voidLocked', 'true');
-        location.reload();
-    } else {
+        alert("I WARNED YOU.");
+        // We reload to trigger the UI changes in Section 6
+        location.reload(); 
+    } 
+    else {
+        // Normal progression
         window.location.href = "index.html";
     }
 }
 
-// --- STILLNESS CHALLENGE ---
+// --- 3. STILLNESS CHALLENGE ---
 function startStillnessChallenge() {
-    document.getElementById('status-text').innerHTML = "DON'T MOVE.";
-    document.getElementById('status-text').style.fontSize = "24px";
+    const statusText = document.getElementById('status-text');
+    statusText.innerHTML = "DON'T MOVE.";
+    statusText.style.fontSize = "24px";
+    statusText.style.color = "red";
     
     let secondsStill = 0;
     const challenge = setInterval(() => {
@@ -190,16 +190,14 @@ function startStillnessChallenge() {
         }
     }, 1000);
 
-    // If mouse moves, reset the challenge
     window.onmousemove = () => {
         if (secondsStill > 0 && secondsStill < 10) {
             secondsStill = 0;
-            console.log("Stillness broken.");
         }
     };
 }
 
-// --- TOP BUTTON (EXIT) ---
+// --- 4. TOP BUTTON (EXIT) ---
 function handleExitAttempt(el) {
     if (isWaiting || lockStatus !== 'false') return;
     isWaiting = true;
@@ -210,7 +208,7 @@ function handleExitAttempt(el) {
     }, 1000);
 }
 
-// --- GRID GENERATION ---
+// --- 5. GRID GENERATION ---
 const grid = document.getElementById('voidGrid');
 const symbols = ["?", "Ø", "†", "Σ", "X", "░", "▓", "NaN", "𒀱", "𒄆"];
 
@@ -240,19 +238,27 @@ for (let i = 1; i <= 200; i++) {
     grid.appendChild(card);
 }
 
-// --- APPLY LOCKDOWN UI ---
+// --- 6. APPLY LOCKDOWN UI ---
 if (lockStatus === 'true' || lockStatus === 'permanent') {
     document.getElementById('status-text').innerHTML = "YOU ARE NOT LEAVING.";
     document.getElementById('topExitBtn').style.display = 'none';
+    
     if (lockStatus === 'permanent') {
         document.body.style.backgroundColor = "#1a0000";
         document.getElementById('termBtn').innerHTML = "STAY.";
+        
+        const whispers = ["I see you", "Still here?", "Don't leave me...", "It's cold out there"];
+        setInterval(() => {
+            const statusText = document.getElementById('status-text');
+            statusText.innerHTML = whispers[Math.floor(Math.random() * whispers.length)];
+        }, 8000);
     }
 }
 
-// --- OVERLAY SCROLL LOGIC ---
+// --- 7. OVERLAY SCROLL LOGIC ---
 const overlay = document.getElementById('creepy-overlay');
-const horrorPhrases = ["H̸I̸D̸E̸", "N̾O̾ ̾E̾S̾C̾A̾P̾E̾", "尺ㄩ几", "𝒩𝒪 𝒯𝒰ℛ𝒩ℐ𝒩𝒢 ℬ𝒜𝒞𝒦"];
+const horrorPhrases = ["H̸I̸D̸E̸", "N̾O̾ ̾E̾S̾C̾A̾P̾E̾", "尺ㄩ几", "𝒩𝒪 𝒯𝒰ℛ𝒩ℐ𝒩𝒢 ℬ𝒜𝒞𝒦", "ƓƟƟƉ ԼƲƇƘ", "𝕽 𝖀 𝕹"];
+
 setInterval(() => {
     let scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight || 1);
     if (scrollPercent > 0.05) {
